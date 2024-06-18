@@ -1,21 +1,57 @@
 ---
 title: "6-17-2024"
+execute: 
+  echo: false
 ---
 
 ```{r}
+#| message: false
+#| label: setup
 library(tidycensus)
 library(tidyverse)
 ```
 
 ```{r}
-census_api_key("ec4f717e7653477126cd18556acd4317894b5b17", install = TRUE)
 
-texas_income <- get_acs(
-  geography = "tract",
+# Install and load required packages
+library(tidycensus)
+library(dplyr)
+library(ggplot2)
+
+# Set up your Census API key
+census_api_key("ec4f717e7653477126cd18556acd4317894b5b17", overwrite = TRUE)
+#readRenviron("~/.Renviron")
+
+# Specify the year and dataset
+year <- 2020
+dataset <- "acs5"
+
+# Load median household income data for Illinois
+income_data <- get_acs(
+  geography = "county",
   variables = "B19013_001",
-  state = "TX",
-  year = 2021,
-  geometry = TRUE
+  state = "IL",
+  year = year,
+  survey = dataset
 )
+
+# Rename columns for easier understanding
+income_data <- income_data %>%
+  rename(
+    county = NAME,
+    median_income = estimate
+  )
+
+# Create a bar plot
+ggplot(income_data, aes(x = reorder(county, median_income), y = median_income)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  coord_flip() +
+  labs(
+    title = "Median Household Income by County in Illinois (2020)",
+    x = "County",
+    y = "Median Household Income (USD)"
+  ) +
+  theme_minimal()
+
 
 ```
