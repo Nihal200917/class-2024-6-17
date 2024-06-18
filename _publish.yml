@@ -1,0 +1,4 @@
+- source: project
+  quarto-pub:
+    - id: cb895e29-8f7e-4bcf-8f3a-b525268f4d1c
+      url: 'https://nihal200917.quarto.pub/my-website'
