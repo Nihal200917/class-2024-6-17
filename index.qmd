@@ -1,0 +1,21 @@
+---
+title: "6-17-2024"
+---
+
+```{r}
+library(tidycensus)
+library(tidyverse)
+```
+
+```{r}
+census_api_key("ec4f717e7653477126cd18556acd4317894b5b17", install = TRUE)
+
+texas_income <- get_acs(
+  geography = "tract",
+  variables = "B19013_001",
+  state = "TX",
+  year = 2021,
+  geometry = TRUE
+)
+
+```
